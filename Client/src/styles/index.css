@@ -1,0 +1,14 @@
+body, body #root {
+    background-color: #4d4d4b !important; /* brown for background */
+    color: #DFFFBF; /* Pale green */
+    height: 100%;
+}
+  
+  h1 {
+    color: #bcb2b8;
+  }
+  
+  nav-link {
+    color: #e8c3df;
+    background-color: #4d4d4b
+  }

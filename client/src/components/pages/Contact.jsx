@@ -1,13 +1,12 @@
-import React, { useState,useRef } from 'react';
-import emailjs from '@emailjs/browser'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Contact = () => {
-  const form =useRef();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [message, setMessage] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isEmailAddressValid, setIsEmailAddressValid] = useState(true);
   const [isMessageValid, setIsMessageValid] = useState(true);
   const [isMessageSent, setIsMessageSent] = useState(false);
   const [isTyping, setIsTyping] = useState(false); // New state for tracking typing
@@ -17,8 +16,8 @@ const Contact = () => {
     setIsTyping(true); // User is typing
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleEmailAddressChange = (e) => {
+    setEmailAddress(e.target.value);
     setIsTyping(true); // User is typing
   };
 
@@ -27,56 +26,53 @@ const Contact = () => {
     setIsTyping(true); // User is typing
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name,email,message,);
-    const templateParams = {
-      name: name,
-      email: email,
-      message: message
-    };
-    console.log(templateParams)
-
+    
     // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailAddressRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
 
     // Check if the name is not empty
     const isValidName = name.trim() !== "";
     setIsNameValid(isValidName);
 
     // Check if the email address is valid
-    const isValidEmail = emailRegex.test(email);
-    setIsEmailValid(isValidEmail);
+    const isValidEmailAddress = emailAddressRegex.test(emailAddress);
+    setIsEmailAddressValid(isValidEmailAddress);
 
     // Check if the message is not empty
     const isValidMessage = message.trim() !== "";
     setIsMessageValid(isValidMessage);
 
-    if (isValidName && isValidEmail && isValidMessage) {
-      // Display confirmation message and ask for confirmation to send the email
-      if (window.confirm(`From: ${name}\nEmail: ${email}\n\nMessage: ${message}\n\nSend this email?`)) {
-        // If the user clicks "Yes", clear the inputs and show "message sent" alert
-        emailjs.send('service_9qrc1ds', 'template_hv82ye2', templateParams, '29vwtdSA-Va6rLrdq')
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
+    if (isValidName && isValidEmailAddress && isValidMessage) {
+      if (window.confirm(`From: ${name}\nEmail: ${emailAddress}\n\nMessage: ${message}\n\nSend this email?`)){
+    try {
+      const response = await axios.post("http://localhost:5000/send-email", {
+        name,
+        emailAddress,
+        message,
       });
+    if (response.status === 200){
         setName("");
-        setEmail("");
+        setEmailAddress("");
         setMessage("");
         setIsMessageSent(true);
         setIsTyping(false); // Reset typing state to false
-        alert("Message sent.");
+        alert("Message sent successfully.");
       }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send the message. Please try again.");
     }
+  }
+}
   };
 
   return (
     <div>
       <h1>Contact Me</h1>
       <div className="contactForm">
-        <form ref={form} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name:</label>
             <input
@@ -92,10 +88,10 @@ const Contact = () => {
             <input
               type="email"
               name="email"
-              value={email}
-              onChange={handleEmailChange}
+              value={emailAddress}
+              onChange={handleEmailAddressChange}
             />
-            {!isEmailValid && <span className="error">Please enter a valid email address.</span>}
+            {!isEmailAddressValid && <span className="error">Please enter a valid email address.</span>}
           </div>
           <div>
             <div className="message">

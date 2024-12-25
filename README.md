@@ -6,7 +6,7 @@ Profilio2-2 is meant to be a version of Profilio2 that is actually capable of do
  
 
 ## Installation
-This page has not been deployed.  I'm currently not sure where I will put the releavnt files, in GitHub either. I'm going to aim to have the site work if the files are loaded into a local folder.  There using a node.js terminal, one should be able to type "npm install" to install all the necessary node dependencies.  Then, I believe I will plan to allow for a "npm run start" command to both start the server (which will now be required) as well as start up the local client in the user's default browser.  
+This page has not been deployed.  The index.html file is in the root folder where this README.md is located.  Once it is downloaded locally, on need only type "npm install" in the node terminal followed by "npm start."  The latter will execute both the server and client portions of the code.   
 
 ## License
 The github repository uses an MIT license. 

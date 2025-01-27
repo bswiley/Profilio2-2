@@ -47,7 +47,7 @@ const Contact = () => {
     if (isValidName && isValidEmailAddress && isValidMessage) {
       if (window.confirm(`From: ${name}\nEmail: ${emailAddress}\n\nMessage: ${message}\n\nSend this email?`)){
     try {
-      const response = await axios.post("http://localhost:5000/send-email", {
+      const response = await axios.post("https://main.d1g49s2r3ywe5y.amplifyapp.com/send-email", {
         name,
         emailAddress,
         message,

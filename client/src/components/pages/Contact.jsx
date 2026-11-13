@@ -47,8 +47,8 @@ const Contact = () => {
     if (isValidName && isValidEmailAddress && isValidMessage) {
       if (window.confirm(`From: ${name}\nEmail: ${emailAddress}\n\nMessage: ${message}\n\nSend this email?`)){
     try {
-      const response = await axios.post("https://web3forms.com", {
-        access_key: "PASTE_YOUR_REAL_KEY_HERE",
+      const response = await axios.post("https://api.web3forms.com/submit", {
+        access_key: "e8c29df5-d2e6-4c52-83e6-c5056d94c8ab",
         subject: "New Message from Profile Website",
         name: name,
         email: emailAddress,

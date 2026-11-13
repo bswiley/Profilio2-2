@@ -47,12 +47,14 @@ const Contact = () => {
     if (isValidName && isValidEmailAddress && isValidMessage) {
       if (window.confirm(`From: ${name}\nEmail: ${emailAddress}\n\nMessage: ${message}\n\nSend this email?`)){
     try {
-      const response = await axios.post("https://main.d1g49s2r3ywe5y.amplifyapp.com/send-email", {
-        name,
-        emailAddress,
-        message,
+      const response = await axios.post("https://web3forms.com", {
+        access_key: "PASTE_YOUR_REAL_KEY_HERE",
+        subject: "New Message from Profile Website",
+        name: name,
+        email: emailAddress,
+        message: message,
       });
-    if (response.status === 200){
+    if (response.data.success){
         setName("");
         setEmailAddress("");
         setMessage("");
